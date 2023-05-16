@@ -1,7 +1,7 @@
 <script setup>
   import {ref, watch} from 'vue'
 
-  let todos = ref(JSON.parse(window.localStorage.getItem('todos')))
+  let todos = ref(JSON.parse(window.localStorage.getItem('todos')) ?? [])
   let newTodo = ref()
   let input = ref('')
 
@@ -24,20 +24,21 @@
 </script>
 
 <template>
-  <div class="container">
+  <div class="container2">
     <div class="todo-app">
   <h1 >To Do List</h1>
 <div class="addtoDo">
   <input v-model="newTodo" @keydown.enter="addTodo">
   <button class="addbutton" @click="addTodo">Add Todo</button>
 </div>
-  <ul>
-    <li v-for="(todo, index) in todos">
-      <input type="checkbox" v-model="todo.complete">
+    <p v-for="(todo, index) in todos" :class="{completed: todo.complete}">
+      <label class="container">
+  <input type="checkbox" v-model="todo.complete" checked="checked">
+  <span class="checkmark"></span>
+</label>
       {{ todo.text }}
       <button id="delete" @click="deleteTodo(index)">&#10060;</button>
-    </li>
-  </ul>
+  </p>
     </div>
   </div>
 </template>
@@ -48,7 +49,7 @@ h1{
   padding-bottom: 20px;
 }
 
-.container{
+.container2{
   width: 100%;
   min-height: 100vh;
   background: rgb(141, 140, 142);
@@ -69,9 +70,121 @@ border: none;
 outline: none;
 padding: 8px 25px;
 margin-left: 10px;
-background: skyblue;
+background: rgb(193, 193, 193);
 cursor: pointer;
-border-radius: 24px;
-box-shadow: 2px 2px 2px 2px rgb(106, 164, 186);
+border-radius: 5px;
+box-shadow: 2px 2px 2px 2px rgb(62, 62, 62);
+}
+
+.addbutton:hover{
+  background-color: rgb(52, 52, 52);
+  transition: ease-in 250ms;
+  color: white;
+}
+
+input {
+    width: 75%;
+    border: none;
+    border-bottom: 1px solid #16161a;
+    outline: none;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    text-align: center;
+  font-size: 20px;
+  font-family: 'Braah One', sans-serif;
+
+}
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #c2c2c2;
+}
+
+#delete{
+  border: none;
+  outline: none;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  float: right;
+}
+
+p {
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Braah One', sans-serif;
+}
+
+#delete:hover{
+  background-color: #ccc;
+  cursor: pointer;
 }
 </style>
