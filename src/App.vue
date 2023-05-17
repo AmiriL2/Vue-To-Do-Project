@@ -4,6 +4,7 @@
   let todos = ref(JSON.parse(window.localStorage.getItem('todos')) ?? [])
   let newTodo = ref()
   let input = ref('')
+  let filter = ref('all')
 
   watch(todos, function(value) {
     window.localStorage.setItem('todos', JSON.stringify(value))
@@ -21,17 +22,36 @@
     todos.value.splice(index, 1)
   }
 
+  function todoFilter (todo) {
+    if (filter.value == 'active') {
+      return todo.complete == false;
+    } else if (filter.value == 'completed'){
+      return todo.complete == true;
+    }
+    return true;
+  }
+
 </script>
 
 <template>
   <div class="container2">
     <div class="todo-app">
   <h1 >To Do List</h1>
+  <div class="radios">
+  <input name="filter" type="radio" value="all" v-model="filter">
+    <label>All</label>
+
+    <input name="filter" type="radio" value="active" v-model="filter">
+    <label>Active</label>
+
+    <input name="filter" type="radio" value="completed" v-model="filter">
+    <label>Completed</label>
+  </div>
 <div class="addtoDo">
-  <input v-model="newTodo" @keydown.enter="addTodo">
+  <input class="input1" v-model="newTodo" @keydown.enter="addTodo">
   <button class="addbutton" @click="addTodo">Add Todo</button>
 </div>
-    <p v-for="(todo, index) in todos" :class="{completed: todo.complete}">
+    <p v-for="(todo, index) in todos.filter(todoFilter)" :class="{completed: todo.complete}" >
       <label class="container">
   <input type="checkbox" v-model="todo.complete" checked="checked">
   <span class="checkmark"></span>
@@ -82,11 +102,12 @@ box-shadow: 2px 2px 2px 2px rgb(62, 62, 62);
   color: white;
 }
 
-input {
+.input1 {
     width: 75%;
     border: none;
     border-bottom: 1px solid #16161a;
     outline: none;
+    padding-top: px;
     padding-bottom: 5px;
     padding-left: 5px;
     text-align: center;
@@ -186,5 +207,21 @@ p {
 #delete:hover{
   background-color: #ccc;
   cursor: pointer;
+}
+
+.radios {
+display: flex;
+justify-content: center;
+padding-bottom: 40px;
+flex-direction: column;
+}
+
+input{
+  cursor: pointer;
+}
+
+label{
+  font-size: 15px;
+  font-family: 'Braah One', sans-serif;
 }
 </style>
