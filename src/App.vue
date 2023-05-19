@@ -27,7 +27,7 @@
   }
 
   function clearTodo () {
-   todos.value(index, 0)
+    todos.value = []
   }
 
   function todoFilter (todo) {
@@ -79,12 +79,13 @@
 </template>
 
 <style>
-h1{
+h1 {
   text-align: center;
   padding-bottom: 20px;
 }
 
-.container2{
+.container2 {
+  margin-top: 10px;
   width: 100%;
   min-height: 100vh;
   background: rgb(141, 140, 142);
@@ -109,16 +110,17 @@ background: rgb(193, 193, 193);
 cursor: pointer;
 border-radius: 5px;
 box-shadow: 2px 2px 2px 2px rgb(62, 62, 62);
+min-width: 20px;
 }
 
-.addbutton:hover{
+.addbutton:hover {
   background-color: rgb(52, 52, 52);
   transition: ease-in 250ms;
   color: white;
 }
 
 .input1 {
-    width: 75%;
+    width: 60%;
     border: none;
     border-bottom: 1px solid #16161a;
     outline: none;
@@ -204,7 +206,7 @@ box-shadow: 2px 2px 2px 2px rgb(62, 62, 62);
   color: #c2c2c2;
 }
 
-#delete{
+#delete {
   border: none;
   outline: none;
   height: 25px;
@@ -219,7 +221,7 @@ p {
   font-family: 'Braah One', sans-serif;
 }
 
-#delete:hover{
+#delete:hover {
   background-color: #ccc;
   cursor: pointer;
 }
@@ -231,16 +233,32 @@ padding-bottom: 40px;
 flex-direction: column;
 }
 
-input{
+input {
   cursor: pointer;
 }
 
-label{
+label {
   font-size: 15px;
   font-family: 'Braah One', sans-serif;
 }
 
-.amount{
+.amount {
   padding-top: 10px;
+}
+
+.clearbutton {
+border: none;
+outline: none;
+padding: 8px 25px;
+margin-left: 10px;
+background: rgb(247, 61, 61);
+cursor: pointer;
+border-radius: 5px;
+box-shadow: 2px 2px 2px 2px rgb(62, 62, 62);
+}
+
+.clearbutton:hover {
+  background-color: rgb(185, 5, 5);
+  transition: ease-in 250ms;
 }
 </style>
