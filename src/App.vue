@@ -10,6 +10,10 @@
     window.localStorage.setItem('todos', JSON.stringify(value))
   }, {deep:true})
 
+  function activeFilter(todo){
+    return todo.complete == false
+  }
+
   function addTodo () {
     todos.value.push({
       text: newTodo.value,
@@ -20,6 +24,10 @@
   }
   function deleteTodo (index) {
     todos.value.splice(index, 1)
+  }
+
+  function clearTodo () {
+   todos.value(index, 0)
   }
 
   function todoFilter (todo) {
@@ -37,6 +45,7 @@
   <div class="container2">
     <div class="todo-app">
   <h1 >To Do List</h1>
+  <p v-if="todos.length > 0">
   <div class="radios">
   <input name="filter" type="radio" value="all" v-model="filter">
     <label>All</label>
@@ -47,9 +56,11 @@
     <input name="filter" type="radio" value="completed" v-model="filter">
     <label>Completed</label>
   </div>
+</p>
 <div class="addtoDo">
   <input class="input1" v-model="newTodo" @keydown.enter="addTodo">
   <button class="addbutton" @click="addTodo">Add Todo</button>
+  <button class="clearbutton" @click="clearTodo">Clear</button>
 </div>
     <p v-for="(todo, index) in todos.filter(todoFilter)" :class="{completed: todo.complete}" >
       <label class="container">
@@ -59,6 +70,10 @@
       {{ todo.text }}
       <button id="delete" @click="deleteTodo(index)">&#10060;</button>
   </p>
+  <div class="amount">
+  <p v-if="todos.length > 0"></p>
+  <p>{{todos.filter(activeFilter).length}} Items</p>
+</div>
     </div>
   </div>
 </template>
@@ -223,5 +238,9 @@ input{
 label{
   font-size: 15px;
   font-family: 'Braah One', sans-serif;
+}
+
+.amount{
+  padding-top: 10px;
 }
 </style>
